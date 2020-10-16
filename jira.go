@@ -531,6 +531,9 @@ func (t *JWTAuthTransport) createQueryStringHash(httpMethod string, jiraURL *url
 }
 
 func (t *JWTAuthTransport) canonicalizeRequest(httpMethod string, jiraURL *url.URL) string {
+	replacer := strings.NewReplacer("/wiki", "")
+	jiraURL.Path = replacer.Replace(jiraURL.Path)
+
 	path := "/" + strings.Replace(strings.Trim(jiraURL.Path, "/"), "&", "%26", -1)
 
 	var canonicalQueryString []string
